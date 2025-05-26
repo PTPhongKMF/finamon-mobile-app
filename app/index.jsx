@@ -1,3 +1,4 @@
+import "../index.css"
 import { StyleSheet, Text, View } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 
