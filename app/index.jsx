@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 
-const index = () => {
+export default function index(){
   return (
     <View style={styles.container}>
       <Text>Hello Finamon!!!</Text>
@@ -9,8 +9,6 @@ const index = () => {
     </View>
   )
 }
-
-export default index
 
 const styles = StyleSheet.create({
   container: {
