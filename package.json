@@ -11,6 +11,7 @@
   "dependencies": {
     "@expo/html-elements": "0.4.2",
     "@gluestack-ui/icon": "^0.1.27",
+    "@gluestack-ui/input": "^0.1.38",
     "@gluestack-ui/nativewind-utils": "^1.0.26",
     "@gluestack-ui/overlay": "^0.1.22",
     "@gluestack-ui/toast": "^1.0.9",
@@ -19,6 +20,7 @@
     "clsx": "^2.1.1",
     "expo": "~53.0.9",
     "expo-constants": "~17.1.6",
+    "expo-linear-gradient": "~14.1.4",
     "expo-linking": "~7.1.5",
     "expo-router": "~5.0.7",
     "expo-status-bar": "~2.2.3",

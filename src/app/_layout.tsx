@@ -3,14 +3,11 @@ import { GluestackUIProvider } from "@/src/components/lib/gluestack-ui/gluestack
 import React from 'react'
 
 import "@/src/index.css"
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function RootLayout() {
   return (
     <GluestackUIProvider mode="light">
-      <SafeAreaView>
-        <Slot />
-      </SafeAreaView>
+      <Slot />
     </GluestackUIProvider>
   );
 }

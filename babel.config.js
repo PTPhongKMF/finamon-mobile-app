@@ -10,10 +10,10 @@ module.exports = function (api) {
       root: ["./"],
 
       alias: {
-        "@": "./",
         "@app": "src/app",
         "@components": "src/components",
-        "tailwind.config": "./tailwind.config.ts"
+        "tailwind.config": "./tailwind.config.ts",
+        "@": "./"
       }
     }]]
   };
