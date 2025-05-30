@@ -10,10 +10,13 @@ module.exports = function (api) {
       root: ["./"],
 
       alias: {
-        "@app": "src/app",
-        "@components": "src/components",
+        "@app/*": "src/app",
+        "@components/*": "src/components",
+        "@services/*": "src/services",
+        "@stores/*": "src/stores",
+        "@custom.types/*": "src/types",
         "tailwind.config": "./tailwind.config.ts",
-        "@": "./"
+        "@/*": "./"
       }
     }]]
   };
