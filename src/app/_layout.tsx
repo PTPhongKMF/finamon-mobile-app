@@ -13,6 +13,7 @@ export default function RootLayout() {
   const router = useRouter();
 
   const [hasInit, setHasInit] = useState(false);
+  const [hasRunOnce, setHasRunOnce] = useState(false);
 
   const { user, hydrateUser, validateUser } = useUserStore(useShallow(
     state => ({
@@ -40,12 +41,16 @@ export default function RootLayout() {
 
   useEffect(() => {
     async function verifyUser() {
-      if (hasInit) {
+      if (hasInit && hasRunOnce) { // only run if init done AND this isn't the first time
         if (!await validateUser()) {
-
+          console.log("Logging out now!");
+          // router.push("login");
         }
+      } else if (hasInit && !hasRunOnce) {
+        // Mark this as the first post-init effect run
+        setHasRunOnce(true);
       }
-    };
+    }
 
     verifyUser();
   }, [hasInit, user])
