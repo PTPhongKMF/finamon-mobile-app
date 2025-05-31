@@ -1,4 +1,14 @@
-export type LoginResponse = {
+export type UserLocalData = {
+  name: string,
+  token: {
+    value: string,
+    exp: number
+  }
+  roles: string[],
+  image: string
+}
+
+export type SuccessLoginResponse = {
   isBanned: boolean;
   requiresVerification: boolean;
   data: {
@@ -10,14 +20,15 @@ export type LoginResponse = {
       userRoles: { roleName: string }[];
     };
   };
+  message: string
 }
 
-export type UserLocalData = {
-  name: string,
-  token: {
-    value: string,
-    exp: number
-  }
-  roles: string[],
-  image: string
+export type ErrorLoginResponse = {
+  isBanned: boolean;
+  requiresVerification: boolean;
+  bannedAccountId: number;
+  code: number;
+  systemCode: string | null;
+  message: string;
+  data: null;
 }

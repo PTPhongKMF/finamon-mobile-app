@@ -14,29 +14,25 @@ export default function RootLayout() {
 
   const [hasInit, setHasInit] = useState(false);
 
-  const { user, isUserLoggedIn, hydrateUser, validateUser } = useUserStore(
-    useShallow(
-      state => ({
-        user: state.user,
-        isUserLoggedIn: state.isUserLoggedIn,
-        hydrateUser: state.hydrateUser,
-        validateUser: state.validateUser
-      })
-    )
-  );
+  const { user, hydrateUser, validateUser } = useUserStore(useShallow(
+    state => ({
+      user: state.user,
+      hydrateUser: state.hydrateUser,
+      validateUser: state.validateUser
+    })
+  ));
 
   useEffect(() => {
     async function initApp() {
       await hydrateUser();
 
       if (await validateUser()) {
-        // router.push("");
+        router.push("dashboard");
       } else {
-        if (isUserLoggedIn)
+        router.push("login")
       }
 
       setHasInit(true);
-      router.push("login")
     };
 
     initApp()
@@ -44,8 +40,10 @@ export default function RootLayout() {
 
   useEffect(() => {
     async function verifyUser() {
-      if (hasInit && user) {
+      if (hasInit) {
+        if (!await validateUser()) {
 
+        }
       }
     };
 
@@ -57,8 +55,8 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="index" options={{ animation: "fade" }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false, animation: "fade" }} />
-          {/* <Stack.Screen name="dashboard" options={{ headerShown: false, animation: "fade" }} /> */}
+          <Stack.Screen name="(auth)" options={{ animation: "fade" }} />
+          <Stack.Screen name="dashboard/index" options={{ animation: "fade_from_bottom" }} />
         </Stack>
       </QueryClientProvider>
     </GluestackUIProvider>

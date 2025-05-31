@@ -1,32 +1,56 @@
 import { Keyboard, Text, TouchableWithoutFeedback, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Heading } from '@components/lib/gluestack-ui/heading'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { LinearGradient } from '@components/lib/gluestack-ui/gradient'
-import { Button, ButtonText } from '@components/lib/gluestack-ui/button'
+import { Button, ButtonSpinner, ButtonText } from '@components/lib/gluestack-ui/button'
 import { useMutation } from '@tanstack/react-query'
 import { kyAspDotnet } from '@services/api/ky'
-import { LoginResponse } from '@custom.types/auth'
+import { ErrorLoginResponse, SuccessLoginResponse } from '@custom.types/auth'
 import { Input, InputField, InputIcon, InputSlot } from '@components/lib/gluestack-ui/input'
 import { Lock, Mail } from 'lucide-react-native'
 import { useRouter } from 'expo-router'
 import { useUserStore } from '@stores/userStore'
+import clsx from 'clsx'
+import { AlertDialog, AlertDialogBackdrop, AlertDialogBody, AlertDialogContent, AlertDialogHeader } from '@components/lib/gluestack-ui/alert-dialog'
 
 export default function Login() {
   const router = useRouter();
   const setUser = useUserStore(state => state.setUser);
 
   const [email, setEmail] = useState("");
+  const [emailErr, setEmailErr] = useState(false);
   const [password, setPassword] = useState("");
+  const [passwordErr, setPasswordErr] = useState(false);
+  const [loginErr, setLoginErr] = useState(false);
 
   const login = useMutation({
     mutationFn: async () => {
       return await kyAspDotnet.post("api/auth/login", {
         json: {
           email,
-          password
+          password,
+          mobile: true
+        },
+        hooks: {
+          beforeError: [
+            async error => {
+              const errorData = await error.response.json() as ErrorLoginResponse;
+              error.message = errorData.message;
+
+              return error;
+            }
+          ]
         }
-      }).json<LoginResponse>();
+      }).json<SuccessLoginResponse>();
+      // } catch (error: any) {
+      //   try {
+      //     const errorData = await error.response?.json() as ErrorLoginResponse;
+      //     throw errorData;
+      //   } catch {
+      //     throw new Error("Lỗi không xác định");
+      //   }
+      // }
     },
     onSuccess: (data) => {
       if (data?.isBanned) throw new Error("Bạn đã bị cấm, liên hệ hỗ trợ nếu bạn nghĩ đây là sai lầm");
@@ -42,17 +66,27 @@ export default function Login() {
         name: data?.data?.user?.userName ?? data?.data?.user?.email.split("@")[0],
         token: {
           value: data.data.token,
-          exp: new Date()
+          exp: Date.now() + 30 * 24 * 60 * 60 * 1000 // exp in 1 month
         },
         roles: userRoles,
         image: data?.data?.user?.image ?? "https://st4.depositphotos.com/11634452/21365/v/450/depositphotos_213659488-stock-illustration-picture-profile-icon-human-people.jpg",
       });
 
-      // router.push("/");
+      router.push("/dashboard");
+    },
+    onError: (error) => {
+      console.log('Error:', error);
+      setLoginErr(true);
     }
   })
 
   function handleLogin() {
+    if (!email || !password) {
+      if (!email) setEmailErr(true);
+      if (!password) setPasswordErr(true);
+      return;
+    }
+
     login.mutate();
   };
 
@@ -70,22 +104,34 @@ export default function Login() {
             <Heading size="4xl" className="text-gray-200 font-bold mt-16">Đăng Nhập</Heading>
 
             <View className="justify-center w-full gap-8 px-10 my-16">
-              <Input variant="rounded" size="xl" className="bg-gray-200 px-2">
+              <Input className={clsx(
+                "bg-gray-200 px-2",
+                emailErr && "border-4"
+              )}
+                isInvalid={emailErr} variant="rounded" size="xl" >
                 <InputSlot>
                   <InputIcon as={Mail} className="text-black" />
                 </InputSlot>
-                <InputField placeholder="Email" keyboardType="email-address" />
+                <InputField onPress={() => setEmailErr(false)}
+                  value={email} onChangeText={setEmail} placeholder="Email" keyboardType="email-address" />
               </Input>
-              <Input variant="rounded" size="xl" className="bg-gray-200 px-2">
+              <Input className={clsx(
+                "bg-gray-200 px-2",
+                passwordErr && "border-4"
+              )}
+                isInvalid={passwordErr} variant="rounded" size="xl">
                 <InputSlot>
                   <InputIcon as={Lock} className="text-black" />
                 </InputSlot>
-                <InputField type="password" placeholder="Mật Khẩu" keyboardType="email-address" />
+                <InputField onPress={() => setPasswordErr(false)}
+                  value={password} onChangeText={setPassword} type="password" placeholder="Mật Khẩu" />
               </Input>
             </View>
 
-            <Button size="lg" className="bg-amber-500 data-[active=true]:bg-yellow-700 h-14 min-w-52 rounded-2xl mt-4">
+            <Button className="bg-amber-500 data-[active=true]:bg-yellow-700 h-14 min-w-52 rounded-2xl mt-4"
+              onPress={() => { Keyboard.dismiss(); handleLogin() }} size="lg" isDisabled={login.isPending}>
               <ButtonText className="text-xl text-gray-100">Đăng Nhập</ButtonText>
+              {login.isPending && <ButtonSpinner className="absolute" color="#FFFFFF" size="large" />}
             </Button>
           </View>
 
@@ -98,7 +144,20 @@ export default function Login() {
           </View>
 
         </SafeAreaView>
+
+        <AlertDialog isOpen={loginErr} size="lg" useRNModal={true} onClose={() => setLoginErr(false)}>
+          <AlertDialogBackdrop />
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <Heading className="font-bold text-red-600" size="xl">Lỗi</Heading>
+            </AlertDialogHeader>
+            <AlertDialogBody className="mt-4 mb-2">
+              <Text className="text-lg">{login.error?.message ?? "Lỗi không xác định"}</Text>
+            </AlertDialogBody>
+          </AlertDialogContent>
+        </AlertDialog>
       </View>
+
     </TouchableWithoutFeedback>
   )
 }

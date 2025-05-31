@@ -4,17 +4,14 @@ import { create } from "zustand";
 
 type UserState = {
   user: UserLocalData | null;
-  isUserLoggedIn: boolean;
   hydrateUser: () => Promise<void>;
   validateUser: () => Promise<boolean>;
   setUser: (user: UserLocalData) => void;
   clearUser: () => Promise<void>;
-  setIsUserLoggedIn: (value: boolean) => void;
 }
 
 export const useUserStore = create<UserState>((set, get) => ({
   user: null,
-  isUserLoggedIn: false,
 
   hydrateUser: async () => {
     const storedUser = await AsyncStorage.getItem("user");
@@ -50,6 +47,4 @@ export const useUserStore = create<UserState>((set, get) => ({
     set({ user: null });
     await AsyncStorage.removeItem('user');
   },
-
-  setIsUserLoggedIn: (value) => set({ isUserLoggedIn: value })
 }))
