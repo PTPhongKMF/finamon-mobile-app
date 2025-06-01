@@ -17,6 +17,9 @@ importers:
       '@gluestack-ui/button':
         specifier: ^1.0.14
         version: 1.0.14(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
+      '@gluestack-ui/divider':
+        specifier: ^0.1.10
+        version: 0.1.10(react-dom@19.1.0(react@19.0.0))(react@19.0.0)
       '@gluestack-ui/form-control':
         specifier: ^0.1.19
         version: 0.1.19(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
@@ -26,6 +29,9 @@ importers:
       '@gluestack-ui/input':
         specifier: ^0.1.38
         version: 0.1.38(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
+      '@gluestack-ui/modal':
+        specifier: ^0.1.41
+        version: 0.1.41(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
       '@gluestack-ui/nativewind-utils':
         specifier: ^1.0.26
         version: 1.0.26(nativewind@4.1.23(react-native-reanimated@3.16.2(@babel/core@7.27.3)(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native-safe-area-context@5.4.1(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native-svg@15.2.0(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)(tailwindcss@3.4.17))(react@19.0.0)(tailwindcss@3.4.17)
@@ -89,6 +95,9 @@ importers:
       react-native-css-interop:
         specifier: ^0.1.22
         version: 0.1.22(react-native-reanimated@3.16.2(@babel/core@7.27.3)(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native-safe-area-context@5.4.1(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native-svg@15.2.0(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)(tailwindcss@3.4.17)
+      react-native-otp-entry:
+        specifier: ^1.8.4
+        version: 1.8.4(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
       react-native-reanimated:
         specifier: 3.16.2
         version: 3.16.2(@babel/core@7.27.3)(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
@@ -807,6 +816,12 @@ packages:
       react: '>=16'
       react-dom: '>=16'
 
+  '@gluestack-ui/divider@0.1.10':
+    resolution: {integrity: sha512-/hZx1Rmy4Pgln9AwAprAEQcxYPEHjHSNF4xCUWlK/q0peyiMT5Nagt54VnxykVn5A0b2zg5QKP0pOqOF9xeE6w==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+
   '@gluestack-ui/form-control@0.1.19':
     resolution: {integrity: sha512-6YbPbi/RZrXc5DyVPbxPV17FYaBoEl1yAdSwut8iE6n+yQekjluINrh2q5ZPWF2SGmyo7VSNcL85yeU5I97xHg==}
     peerDependencies:
@@ -827,6 +842,12 @@ packages:
 
   '@gluestack-ui/input@0.1.38':
     resolution: {integrity: sha512-NzwDOXkkMYzBQ0h7UnhKA2h54/qlxDxMFGXykkmYOl7mc7QJc1aJaveo4yMHtpYvcQG17xLyD+Z+5CQYA76nvw==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+
+  '@gluestack-ui/modal@0.1.41':
+    resolution: {integrity: sha512-pEO5h6TxEpYyU/CEhRD/pAkuBsDfqnFUe51AxK7w6FLjBuTKA5P0wsQ1pfcovJeykkpreG+MiUvNPIo3MW/Lfw==}
     peerDependencies:
       react: '>=16'
       react-dom: '>=16'
@@ -3695,6 +3716,12 @@ packages:
       react: '*'
       react-native: '*'
 
+  react-native-otp-entry@1.8.4:
+    resolution: {integrity: sha512-7j7p/ZEz5QlS22DWYoFigbLqLDSwFbwTVlsl2QOuW6q9Jwai+y5C2GSdKZRkY7RAy0ZwG/ltkaciSdnoBNdcwQ==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+
   react-native-reanimated@3.16.2:
     resolution: {integrity: sha512-Jk8y+iOLcK3J8YK3Qj/U+zclwfetgM1fFhlYaxFrJ5TPvuwdRG5YY1pvO91FcZ3C1+0meGHR6BZGl9d/Z0xh3Q==}
     peerDependencies:
@@ -5498,6 +5525,11 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
+  '@gluestack-ui/divider@0.1.10(react-dom@19.1.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      react: 19.0.0
+      react-dom: 19.1.0(react@19.0.0)
+
   '@gluestack-ui/form-control@0.1.19(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@gluestack-ui/utils': 0.1.15(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
@@ -5528,6 +5560,20 @@ snapshots:
       '@gluestack-ui/utils': 0.1.15(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
       '@react-native-aria/focus': 0.2.9(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
       '@react-native-aria/interactions': 0.2.16(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
+      react: 19.0.0
+      react-dom: 19.1.0(react@19.0.0)
+    transitivePeerDependencies:
+      - react-native
+
+  '@gluestack-ui/modal@0.1.41(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@gluestack-ui/hooks': 0.1.13(react-dom@19.1.0(react@19.0.0))(react@19.0.0)
+      '@gluestack-ui/overlay': 0.1.22(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
+      '@gluestack-ui/utils': 0.1.15(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
+      '@react-native-aria/dialog': 0.0.5(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
+      '@react-native-aria/focus': 0.2.9(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
+      '@react-native-aria/interactions': 0.2.16(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
+      '@react-native-aria/overlays': 0.3.15(react-dom@19.1.0(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
       react: 19.0.0
       react-dom: 19.1.0(react@19.0.0)
     transitivePeerDependencies:
@@ -8947,6 +8993,11 @@ snapshots:
       react-native: 0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0)
 
   react-native-is-edge-to-edge@1.1.7(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0):
+    dependencies:
+      react: 19.0.0
+      react-native: 0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0)
+
+  react-native-otp-entry@1.8.4(react-native@0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0):
     dependencies:
       react: 19.0.0
       react-native: 0.79.2(@babel/core@7.27.3)(@types/react@19.0.14)(react@19.0.0)

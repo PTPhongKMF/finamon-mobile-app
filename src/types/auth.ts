@@ -17,6 +17,7 @@ export type SuccessLoginResponse = {
       userName: string;
       email: string;
       image?: string;
+      token: string;
       userRoles: { roleName: string }[];
     };
   };
@@ -31,4 +32,11 @@ export type ErrorLoginResponse = {
   systemCode: string | null;
   message: string;
   data: null;
+}
+
+export type ErrorVerifyResponse = {
+  code: number | null,
+  systemCode: number | null,
+  message: string,
+  data: any
 }

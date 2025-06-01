@@ -9,7 +9,8 @@ import { Button, ButtonSpinner, ButtonText } from '@components/lib/gluestack-ui/
 import { useRouter } from 'expo-router'
 import clsx from 'clsx'
 import { useMutation } from '@tanstack/react-query'
-import { AlertDialog, AlertDialogBackdrop, AlertDialogBody, AlertDialogContent, AlertDialogHeader } from '@components/lib/gluestack-ui/alert-dialog'
+import { AuthAlertDialog } from '@components/auth/AuthAlertDialog'
+import { kyAspDotnet } from '@services/api/ky'
 
 export default function Register() {
   const router = useRouter();
@@ -23,7 +24,36 @@ export default function Register() {
   const [registerErr, setRegisterErr] = useState(false);
 
   const register = useMutation({
+    mutationFn: async () => {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setEmailErr(true);
+        throw new Error("Email không hợp lệ")
+      };
+      if (password.length < 6) {
+        setPasswordErr(true)
+        setPassword2Err(true)
+        throw new Error("Mật khẩu phải có ít nhất 6 chữ số")
+      };
+      if (password !== password2) {
+        setPasswordErr(true)
+        setPassword2Err(true)
+        throw new Error("Mật khẩu không trùng khớp")
+      };
 
+      return await kyAspDotnet.post("api/auth/register", {
+        json: {
+          email,
+          password
+        }
+      }).json();
+    },
+    onSuccess: () => {
+      // router.push("/dashboard");
+    },
+    onError: (error) => {
+      console.log('Error:', error);
+      setRegisterErr(true);
+    }
   })
 
   function handleRegister() {
@@ -87,7 +117,7 @@ export default function Register() {
             </View>
 
             <Button className="bg-amber-500 data-[active=true]:bg-yellow-700 h-14 min-w-52 rounded-2xl mt-4"
-            onPress={() => { Keyboard.dismiss(); handleRegister() }} size="lg" isDisabled={register.isPending}>
+              onPress={() => { Keyboard.dismiss(); handleRegister() }} size="lg" isDisabled={register.isPending}>
               <ButtonText className="text-xl text-gray-100">Đăng Ký</ButtonText>
               {register.isPending && <ButtonSpinner className="absolute" color="#FFFFFF" size="large" />}
             </Button>
@@ -102,18 +132,12 @@ export default function Register() {
           </View>
 
         </SafeAreaView>
-        
-        <AlertDialog isOpen={registerErr} size="lg" useRNModal={true} onClose={() => setRegisterErr(false)}>
-          <AlertDialogBackdrop />
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <Heading className="font-bold text-red-600" size="xl">Lỗi</Heading>
-            </AlertDialogHeader>
-            <AlertDialogBody className="mt-4 mb-2">
-              <Text className="text-lg">{register.error?.message ?? "Lỗi không xác định"}</Text>
-            </AlertDialogBody>
-          </AlertDialogContent>
-        </AlertDialog>
+
+        <AuthAlertDialog
+          isOpen={registerErr}
+          onClose={() => setRegisterErr(false)}
+          errorMessage={register.error?.message}
+        />
       </View>
     </TouchableWithoutFeedback>
   )

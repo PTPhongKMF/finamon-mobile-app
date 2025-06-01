@@ -6,13 +6,14 @@ import { LinearGradient } from '@components/lib/gluestack-ui/gradient'
 import { Button, ButtonSpinner, ButtonText } from '@components/lib/gluestack-ui/button'
 import { useMutation } from '@tanstack/react-query'
 import { kyAspDotnet } from '@services/api/ky'
-import { ErrorLoginResponse, SuccessLoginResponse } from '@custom.types/auth'
+import { ErrorLoginResponse, SuccessLoginResponse, UserLocalData } from '@custom.types/auth'
 import { Input, InputField, InputIcon, InputSlot } from '@components/lib/gluestack-ui/input'
 import { Lock, Mail } from 'lucide-react-native'
 import { useRouter } from 'expo-router'
 import { useUserStore } from '@stores/userStore'
 import clsx from 'clsx'
-import { AlertDialog, AlertDialogBackdrop, AlertDialogBody, AlertDialogContent, AlertDialogHeader } from '@components/lib/gluestack-ui/alert-dialog'
+import { AuthAlertDialog } from '@components/auth/AuthAlertDialog'
+import VerifyAccountModal from '@components/auth/VerifyAccountModal'
 
 export default function Login() {
   const router = useRouter();
@@ -23,6 +24,8 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [passwordErr, setPasswordErr] = useState(false);
   const [loginErr, setLoginErr] = useState(false);
+
+  const [needVerify, setNeedVerify] = useState(false);
 
   const login = useMutation({
     mutationFn: async () => {
@@ -43,34 +46,27 @@ export default function Login() {
           ]
         }
       }).json<SuccessLoginResponse>();
-      // } catch (error: any) {
-      //   try {
-      //     const errorData = await error.response?.json() as ErrorLoginResponse;
-      //     throw errorData;
-      //   } catch {
-      //     throw new Error("Lỗi không xác định");
-      //   }
-      // }
     },
     onSuccess: (data) => {
       if (data?.isBanned) throw new Error("Bạn đã bị cấm, liên hệ hỗ trợ nếu bạn nghĩ đây là sai lầm");
-      if (!data?.data?.token) throw new Error("Không tìm thấy token")
 
       if (data.requiresVerification) {
-        // navigate("/verify-account", { state: { email: email } });
+        setNeedVerify(true);
         return;
       }
 
+      if (!data?.data?.token) throw new Error("Không tìm thấy token")
+
       const userRoles = data?.data?.user?.userRoles?.map(role => role.roleName) ?? [];
-      setUser({
-        name: data?.data?.user?.userName ?? data?.data?.user?.email.split("@")[0],
-        token: {
-          value: data.data.token,
-          exp: Date.now() + 30 * 24 * 60 * 60 * 1000 // exp in 1 month
-        },
-        roles: userRoles,
-        image: data?.data?.user?.image ?? "https://st4.depositphotos.com/11634452/21365/v/450/depositphotos_213659488-stock-illustration-picture-profile-icon-human-people.jpg",
-      });
+        setUser({
+          name: data?.data?.user?.userName ?? data?.data?.user?.email.split("@")[0],
+          token: {
+            value: data.data.token,
+            exp: Date.now() + 30 * 24 * 60 * 60 * 1000 // exp in 1 month
+          },
+          roles: userRoles,
+          image: data?.data?.user?.image ?? "https://st4.depositphotos.com/11634452/21365/v/450/depositphotos_213659488-stock-illustration-picture-profile-icon-human-people.jpg",
+        });
 
       router.push("/dashboard");
     },
@@ -145,17 +141,17 @@ export default function Login() {
 
         </SafeAreaView>
 
-        <AlertDialog isOpen={loginErr} size="lg" useRNModal={true} onClose={() => setLoginErr(false)}>
-          <AlertDialogBackdrop />
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <Heading className="font-bold text-red-600" size="xl">Lỗi</Heading>
-            </AlertDialogHeader>
-            <AlertDialogBody className="mt-4 mb-2">
-              <Text className="text-lg">{login.error?.message ?? "Lỗi không xác định"}</Text>
-            </AlertDialogBody>
-          </AlertDialogContent>
-        </AlertDialog>
+        <VerifyAccountModal
+          email={email}
+          isOpen={needVerify}
+          onClose={() => setNeedVerify(false)}
+        />
+
+        <AuthAlertDialog
+          isOpen={loginErr}
+          onClose={() => setLoginErr(false)}
+          errorMessage={login.error?.message}
+        />
       </View>
 
     </TouchableWithoutFeedback>

@@ -13,12 +13,6 @@ export default function Overview() {
       })
     ));
 
-  // function clear() {
-  //   console.log("first:" + user);
-  //   clearUser()
-  //   console.log("cleared:" + user);
-  // }
-
   return (
     <View className="flex-1 justify-center items-center">
       <Heading size="5xl">Success</Heading>
