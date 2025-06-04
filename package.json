@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "scripts": {
-    "start": "expo start",
+    "start": "node scripts/update_ky_localhost_ip.mjs && expo start",
     "android": "DARK_MODE=media expo start --android",
     "ios": "DARK_MODE=media expo start --ios",
     "web": "DARK_MODE=media expo start --web",
     "lint": "expo lint",
-    "i18n-gentypes": "i18next-resources-for-ts interface -i src/i18n/locales -o src/@types/resources.d.ts"
+    "i18n-gen": "i18next-resources-for-ts interface -i src/i18n/locales -o src/@types/resources.d.ts"
   },
   "dependencies": {
     "@expo/html-elements": "0.4.2",
