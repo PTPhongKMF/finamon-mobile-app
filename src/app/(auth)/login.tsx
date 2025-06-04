@@ -1,5 +1,5 @@
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Heading } from '@components/lib/gluestack-ui/heading'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { LinearGradient } from '@components/lib/gluestack-ui/gradient'

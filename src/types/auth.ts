@@ -34,7 +34,7 @@ export type ErrorLoginResponse = {
   data: null;
 }
 
-export type ErrorVerifyResponse = {
+export type ErrorGenericResponse = {
   code: number | null,
   systemCode: number | null,
   message: string,

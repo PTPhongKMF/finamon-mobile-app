@@ -143,7 +143,7 @@ export default function VerifyAccountModal({ email, isOpen, onClose }: VerifyAcc
             <Heading className="font-bold text-green-600" size="xl">{t("alertSuccess")}</Heading>
           </AlertDialogHeader>
           <AlertDialogBody className="mt-4 mb-2">
-            <Text className="text-center">{t("otpSuccedd")}</Text>
+            <Text className="text-center">{t("otpSucceed")}</Text>
           </AlertDialogBody>
         </AlertDialogContent>
       </AlertDialog>

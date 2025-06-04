@@ -1,5 +1,5 @@
-import { View, Text, TouchableWithoutFeedback, Keyboard } from 'react-native'
-import React, { useState } from 'react'
+import { View, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { useState } from 'react'
 import { LinearGradient } from '@components/lib/gluestack-ui/gradient'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Heading } from '@components/lib/gluestack-ui/heading'
@@ -13,10 +13,12 @@ import { AuthAlertDialog } from '@components/auth/AuthAlertDialog'
 import { kyAspDotnet } from '@services/api/ky'
 import { useTranslation } from 'react-i18next'
 import AuthPageLangSelector from '@components/i18n/AuthPageLangSelector'
+import VerifyAccountModal from '@components/auth/VerifyAccountModal'
+import { ErrorGenericResponse } from '@custom.types/auth'
 
 export default function Register() {
   const router = useRouter();
-  const { t } = useTranslation("authPage");
+  const { t } = useTranslation(["authPage", "popup"]);
 
   const [email, setEmail] = useState("");
   const [emailErr, setEmailErr] = useState(false);
@@ -26,35 +28,46 @@ export default function Register() {
   const [password2Err, setPassword2Err] = useState(false);
   const [registerErr, setRegisterErr] = useState(false);
 
+  const [needVerify, setNeedVerify] = useState(false);
+
   const register = useMutation({
     mutationFn: async () => {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         setEmailErr(true);
-        throw new Error("Email không hợp lệ")
+        throw new Error(t("popup:alertInvalidEmail"))
       };
       if (password.length < 6) {
         setPasswordErr(true)
         setPassword2Err(true)
-        throw new Error("Mật khẩu phải có ít nhất 6 chữ số")
+        throw new Error(t("popup:alertPasswordMinimumChar"))
       };
       if (password !== password2) {
         setPasswordErr(true)
         setPassword2Err(true)
-        throw new Error("Mật khẩu không trùng khớp")
+        throw new Error(t("popup:alertPasswordMismatch"))
       };
 
       return await kyAspDotnet.post("api/auth/register", {
         json: {
           email,
           password
+        },
+        hooks: {
+          beforeError: [
+            async error => {
+              const errorData = await error.response.json() as ErrorGenericResponse;
+              error.message = errorData.message;
+
+              return error;
+            }
+          ]
         }
       }).json();
     },
     onSuccess: () => {
-      // router.push("/dashboard");
+      setNeedVerify(true);
     },
     onError: (error) => {
-      console.log('Error:', error);
       setRegisterErr(true);
     }
   })
@@ -137,6 +150,12 @@ export default function Register() {
           </View>
 
         </SafeAreaView>
+
+        <VerifyAccountModal
+          email={email}
+          isOpen={needVerify}
+          onClose={() => setNeedVerify(false)}
+        />
 
         <AuthAlertDialog
           isOpen={registerErr}

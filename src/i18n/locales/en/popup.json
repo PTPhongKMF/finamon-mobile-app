@@ -6,5 +6,8 @@
   "enterOtpText": "Please enter the verification code that was sent to your email",
   "otpClear": "Clear",
   "confirmButton": "Confirm",
-  "otpSucceed": "Confirmation successful, please go back and log in again"
+  "otpSucceed": "Confirmation successful, please go back and log in again",
+  "alertInvalidEmail": "Invalid email",
+  "alertPasswordMinimumChar": "Password must have at least 6 characters",
+  "alertPasswordMismatch": "Passwords don't match"
 }

@@ -6,5 +6,8 @@
   "enterOtpText": "Hãy nhập mã xác nhận đã được gửi tới email của bạn",
   "otpClear": "Nhập lại",
   "confirmButton": "Xác nhận",
-  "otpSucceed": "Xác nhận thành công, hãy quay về và đăng nhập lại"
+  "otpSucceed": "Xác nhận thành công, hãy quay về và đăng nhập lại",
+  "alertInvalidEmail": "Email không hợp lệ",
+  "alertPasswordMinimumChar": "Mật khẩu phải có ít nhất 6 chữ số",
+  "alertPasswordMismatch": "Mật khẩu không trùng khớp"
 }

@@ -1,7 +1,7 @@
 import ky from 'ky';
 
 export const kyAspDotnet = ky.extend({
-  prefixUrl: "http://192.168.110.87:5296/", 
+  prefixUrl: "http://192.168.110.86:5296/", 
   hooks: {
     beforeRequest: [
       request => {
