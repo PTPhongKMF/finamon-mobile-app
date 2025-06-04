@@ -11,9 +11,12 @@ import clsx from 'clsx'
 import { useMutation } from '@tanstack/react-query'
 import { AuthAlertDialog } from '@components/auth/AuthAlertDialog'
 import { kyAspDotnet } from '@services/api/ky'
+import { useTranslation } from 'react-i18next'
+import AuthPageLangSelector from '@components/i18n/AuthPageLangSelector'
 
 export default function Register() {
   const router = useRouter();
+  const { t } = useTranslation("authPage");
 
   const [email, setEmail] = useState("");
   const [emailErr, setEmailErr] = useState(false);
@@ -78,7 +81,7 @@ export default function Register() {
           </View>
 
           <View className="flex-1 w-full items-center py-20">
-            <Heading size="4xl" className="text-gray-200 font-bold mt-16">Đăng Ký</Heading>
+            <Heading size="4xl" className="text-gray-200 font-bold mt-16">{t("registerTitle")}</Heading>
 
             <View className="justify-center w-full gap-8 px-10 my-16">
               <Input className={clsx(
@@ -90,7 +93,7 @@ export default function Register() {
                   <InputIcon as={Mail} className="text-black" />
                 </InputSlot>
                 <InputField onPress={() => setEmailErr(false)}
-                  value={email} onChangeText={setEmail} placeholder="Email" keyboardType="email-address" />
+                  value={email} onChangeText={setEmail} placeholder={t("email")} keyboardType="email-address" />
               </Input>
               <Input className={clsx(
                 "bg-gray-200 px-2",
@@ -101,7 +104,7 @@ export default function Register() {
                   <InputIcon as={Lock} className="text-black" />
                 </InputSlot>
                 <InputField onPress={() => setPasswordErr(false)}
-                  value={password} onChangeText={setPassword} type="password" placeholder="Mật Khẩu" />
+                  value={password} onChangeText={setPassword} type="password" placeholder={t("password")} />
               </Input>
               <Input className={clsx(
                 "bg-gray-200 px-2",
@@ -112,22 +115,24 @@ export default function Register() {
                   <InputIcon as={LockKeyhole} className="text-black" />
                 </InputSlot>
                 <InputField onPress={() => setPassword2Err(false)}
-                  value={password2} onChangeText={setPassword2} type="password" placeholder="Nhập lại Mật Khẩu" />
+                  value={password2} onChangeText={setPassword2} type="password" placeholder={t("repeatPassword")} />
               </Input>
             </View>
 
             <Button className="bg-amber-500 data-[active=true]:bg-yellow-700 h-14 min-w-52 rounded-2xl mt-4"
               onPress={() => { Keyboard.dismiss(); handleRegister() }} size="lg" isDisabled={register.isPending}>
-              <ButtonText className="text-xl text-gray-100">Đăng Ký</ButtonText>
+              <ButtonText className="text-xl text-gray-100">{t("registerTitle")}</ButtonText>
               {register.isPending && <ButtonSpinner className="absolute" color="#FFFFFF" size="large" />}
             </Button>
           </View>
 
-          <View className="flex-[0.2] w-full px-8 justify-end items-center">
+          <View className="flex-[0.2] w-full gap-8 px-8 justify-end items-center">
+            <AuthPageLangSelector />
+
             <Button size="lg" className="bg-yellow-500 data-[active=true]:bg-yellow-700 w-full h-16 rounded-2xl"
               onPress={() => router.push("/login")}
             >
-              <ButtonText className="text-xl text-gray-100">Quay về Đăng Nhập</ButtonText>
+              <ButtonText className="text-xl text-gray-100">{t("switchToLogin")}</ButtonText>
             </Button>
           </View>
 

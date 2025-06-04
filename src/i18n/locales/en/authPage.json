@@ -1,0 +1,9 @@
+{
+  "loginTitle": "Login",
+  "registerTitle": "Register",
+  "email": "Email",
+  "password": "Password",
+  "repeatPassword": "Repeat password",
+  "switchToRegister": "Don't have an account? Sign up now!",
+  "switchToLogin": "Back to Login"
+}

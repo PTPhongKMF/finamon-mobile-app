@@ -7,7 +7,8 @@
     "android": "DARK_MODE=media expo start --android",
     "ios": "DARK_MODE=media expo start --ios",
     "web": "DARK_MODE=media expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "i18n-gentypes": "i18next-resources-for-ts interface -i src/i18n/locales -o src/@types/resources.d.ts"
   },
   "dependencies": {
     "@expo/html-elements": "0.4.2",
@@ -33,10 +34,12 @@
     "expo-router": "~5.0.7",
     "expo-splash-screen": "~0.30.8",
     "expo-status-bar": "~2.2.3",
+    "i18next": "^25.2.1",
     "ky": "^1.8.1",
     "lucide-react-native": "^0.511.0",
     "nativewind": "^4.1.23",
     "react": "19.0.0",
+    "react-i18next": "^15.5.2",
     "react-native": "0.79.2",
     "react-native-css-interop": "^0.1.22",
     "react-native-otp-entry": "^1.8.4",
@@ -52,7 +55,9 @@
     "@types/react": "~19.0.10",
     "eslint": "^9.27.0",
     "eslint-config-expo": "~9.2.0",
+    "i18next-resources-for-ts": "^1.6.0",
     "jscodeshift": "0.15.2",
+    "react-native-svg-transformer": "^1.5.1",
     "typescript": "~5.8.3"
   },
   "private": true

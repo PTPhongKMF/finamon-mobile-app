@@ -10,7 +10,8 @@ import { OtpInput } from 'react-native-otp-entry';
 import { useMutation } from '@tanstack/react-query'
 import { kyAspDotnet } from '@services/api/ky'
 import { AlertDialog, AlertDialogBackdrop, AlertDialogBody, AlertDialogContent, AlertDialogHeader } from '@components/lib/gluestack-ui/alert-dialog'
-import { ErrorVerifyResponse } from '@custom.types/auth'
+import { ErrorVerifyResponse } from '@/src/@types/auth'
+import { useTranslation } from 'react-i18next'
 
 interface VerifyAccountModalProps {
   email: string
@@ -19,6 +20,8 @@ interface VerifyAccountModalProps {
 }
 
 export default function VerifyAccountModal({ email, isOpen, onClose }: VerifyAccountModalProps) {
+  const { t } = useTranslation("popup");
+
   const [otp, setOtp] = useState("");
   const [otpErr, setOtpErr] = useState(false);
   const [verifyErr, setVerifyErr] = useState(false);
@@ -73,12 +76,12 @@ export default function VerifyAccountModal({ email, isOpen, onClose }: VerifyAcc
       <ModalContent className="p-2 rounded-3xl">
 
         <ModalHeader className="flex justify-center align-middle">
-          <Heading size="2xl" className="mt-6">Xác nhận tài khoản</Heading>
+          <Heading size="2xl" className="mt-6">{t("confirmAccount")}</Heading>
           <ModalCloseButton className="absolute top-0 right-0"><X color="#6b7280" /></ModalCloseButton>
         </ModalHeader>
 
         <ModalBody className="px-6 py-2" contentContainerClassName="flex justify-center items-center gap-4">
-          <Text className="text-center">Hãy nhập mã xác nhận đã được gửi tới email của bạn</Text>
+          <Text className="text-center">{t("enterOtpText")}</Text>
           <Divider />
           <OtpInput
             ref={otpRef}
@@ -101,14 +104,14 @@ export default function VerifyAccountModal({ email, isOpen, onClose }: VerifyAcc
             onPress={handleClear}
           >
             <ButtonIcon as={Eraser} />
-            <ButtonText className="text-xl text-gray-100">Nhập lại</ButtonText>
+            <ButtonText className="text-xl text-gray-100">{t("otpClear")}</ButtonText>
           </Button>
           <LinearGradient start={[0, 1]} end={[1, 0]} colors={['#1A5237', '#4CAF50', '#8BC34A']}
             className="w-full h-16 rounded-2xl">
             <Button className="bg-transparent data-[active=true]:bg-black/30 w-full h-16"
               onPress={handleSubmit} isDisabled={verify.isPending}
             >
-              <ButtonText className="text-xl text-gray-100">Xác Nhận</ButtonText>
+              <ButtonText className="text-xl text-gray-100">{t("confirmButton")}</ButtonText>
               {verify.isPending && <ButtonSpinner className="absolute" color="#FFFFFF" size="large" />}
             </Button>
           </LinearGradient>
@@ -120,10 +123,10 @@ export default function VerifyAccountModal({ email, isOpen, onClose }: VerifyAcc
         <AlertDialogBackdrop />
         <AlertDialogContent>
           <AlertDialogHeader className="flex justify-center items-center">
-            <Heading className="font-bold text-red-600" size="xl">Lỗi</Heading>
+            <Heading className="font-bold text-red-600" size="xl">{t("alertError")}</Heading>
           </AlertDialogHeader>
           <AlertDialogBody className="mt-4 mb-2">
-            <Text className="text-center">{verify.error?.message || "Lỗi không xác định"}</Text>
+            <Text className="text-center">{verify.error?.message || t("unknownError")}</Text>
           </AlertDialogBody>
         </AlertDialogContent>
       </AlertDialog>
@@ -137,10 +140,10 @@ export default function VerifyAccountModal({ email, isOpen, onClose }: VerifyAcc
         <AlertDialogBackdrop />
         <AlertDialogContent>
           <AlertDialogHeader className="flex justify-center items-center">
-            <Heading className="font-bold text-green-600" size="xl">Thành Công</Heading>
+            <Heading className="font-bold text-green-600" size="xl">{t("alertSuccess")}</Heading>
           </AlertDialogHeader>
           <AlertDialogBody className="mt-4 mb-2">
-            <Text className="text-center">Xác nhận thành công, hãy quay về và đăng nhập lại</Text>
+            <Text className="text-center">{t("otpSuccedd")}</Text>
           </AlertDialogBody>
         </AlertDialogContent>
       </AlertDialog>

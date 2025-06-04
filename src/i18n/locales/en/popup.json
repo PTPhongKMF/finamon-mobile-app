@@ -1,0 +1,10 @@
+{
+  "alertError": "Error",
+  "alertSuccess": "Success",
+  "unknownError": "Unknown error",
+  "confirmAccount": "Confirm Account",
+  "enterOtpText": "Please enter the verification code that was sent to your email",
+  "otpClear": "Clear",
+  "confirmButton": "Confirm",
+  "otpSucceed": "Confirmation successful, please go back and log in again"
+}

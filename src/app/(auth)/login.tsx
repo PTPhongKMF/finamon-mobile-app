@@ -1,4 +1,4 @@
-import { Keyboard, Text, TouchableWithoutFeedback, View } from 'react-native'
+import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useState } from 'react'
 import { Heading } from '@components/lib/gluestack-ui/heading'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -6,7 +6,7 @@ import { LinearGradient } from '@components/lib/gluestack-ui/gradient'
 import { Button, ButtonSpinner, ButtonText } from '@components/lib/gluestack-ui/button'
 import { useMutation } from '@tanstack/react-query'
 import { kyAspDotnet } from '@services/api/ky'
-import { ErrorLoginResponse, SuccessLoginResponse, UserLocalData } from '@custom.types/auth'
+import { ErrorLoginResponse, SuccessLoginResponse } from '@custom.types/auth'
 import { Input, InputField, InputIcon, InputSlot } from '@components/lib/gluestack-ui/input'
 import { Lock, Mail } from 'lucide-react-native'
 import { useRouter } from 'expo-router'
@@ -14,9 +14,12 @@ import { useUserStore } from '@stores/userStore'
 import clsx from 'clsx'
 import { AuthAlertDialog } from '@components/auth/AuthAlertDialog'
 import VerifyAccountModal from '@components/auth/VerifyAccountModal'
+import { useTranslation } from 'react-i18next'
+import AuthPageLangSelector from '@components/i18n/AuthPageLangSelector'
 
 export default function Login() {
   const router = useRouter();
+  const { t } = useTranslation("authPage");
   const setUser = useUserStore(state => state.setUser);
 
   const [email, setEmail] = useState("");
@@ -58,15 +61,15 @@ export default function Login() {
       if (!data?.data?.token) throw new Error("Không tìm thấy token")
 
       const userRoles = data?.data?.user?.userRoles?.map(role => role.roleName) ?? [];
-        setUser({
-          name: data?.data?.user?.userName ?? data?.data?.user?.email.split("@")[0],
-          token: {
-            value: data.data.token,
-            exp: Date.now() + 30 * 24 * 60 * 60 * 1000 // exp in 1 month
-          },
-          roles: userRoles,
-          image: data?.data?.user?.image ?? "https://st4.depositphotos.com/11634452/21365/v/450/depositphotos_213659488-stock-illustration-picture-profile-icon-human-people.jpg",
-        });
+      setUser({
+        name: data?.data?.user?.userName ?? data?.data?.user?.email.split("@")[0],
+        token: {
+          value: data.data.token,
+          exp: Date.now() + 30 * 24 * 60 * 60 * 1000 // exp in 1 month
+        },
+        roles: userRoles,
+        image: data?.data?.user?.image ?? "https://st4.depositphotos.com/11634452/21365/v/450/depositphotos_213659488-stock-illustration-picture-profile-icon-human-people.jpg",
+      });
 
       router.push("/dashboard");
     },
@@ -97,7 +100,7 @@ export default function Login() {
           </View>
 
           <View className="flex-1 w-full items-center py-20">
-            <Heading size="4xl" className="text-gray-200 font-bold mt-16">Đăng Nhập</Heading>
+            <Heading size="4xl" className="text-gray-200 font-bold mt-16">{t("loginTitle")}</Heading>
 
             <View className="justify-center w-full gap-8 px-10 my-16">
               <Input className={clsx(
@@ -109,7 +112,7 @@ export default function Login() {
                   <InputIcon as={Mail} className="text-black" />
                 </InputSlot>
                 <InputField onPress={() => setEmailErr(false)}
-                  value={email} onChangeText={setEmail} placeholder="Email" keyboardType="email-address" />
+                  value={email} onChangeText={setEmail} placeholder={t("email")} keyboardType="email-address" />
               </Input>
               <Input className={clsx(
                 "bg-gray-200 px-2",
@@ -120,22 +123,24 @@ export default function Login() {
                   <InputIcon as={Lock} className="text-black" />
                 </InputSlot>
                 <InputField onPress={() => setPasswordErr(false)}
-                  value={password} onChangeText={setPassword} type="password" placeholder="Mật Khẩu" />
+                  value={password} onChangeText={setPassword} type="password" placeholder={t("password")} />
               </Input>
             </View>
 
             <Button className="bg-amber-500 data-[active=true]:bg-yellow-700 h-14 min-w-52 rounded-2xl mt-4"
               onPress={() => { Keyboard.dismiss(); handleLogin() }} size="lg" isDisabled={login.isPending}>
-              <ButtonText className="text-xl text-gray-100">Đăng Nhập</ButtonText>
+              <ButtonText className="text-xl text-gray-100">{t("loginTitle")}</ButtonText>
               {login.isPending && <ButtonSpinner className="absolute" color="#FFFFFF" size="large" />}
             </Button>
           </View>
 
-          <View className="flex-[0.2] w-full px-8 justify-end items-center">
+          <View className="flex-[0.2] w-full gap-8 px-8 justify-end items-center">
+            <AuthPageLangSelector />
+
             <Button size="lg" className="bg-yellow-500 data-[active=true]:bg-yellow-700 w-full h-16 rounded-2xl"
               onPress={() => router.push("/register")}
             >
-              <ButtonText className="text-xl text-gray-100">Chưa có tài khoản? Đăng ký ngay!</ButtonText>
+              <ButtonText className="text-xl text-gray-100">{t("switchToRegister")}</ButtonText>
             </Button>
           </View>
 

@@ -1,5 +1,7 @@
 {
   "tailwindCSS.experimental.classRegex": [
     ["tva\\((([^()]*|\\([^()]*\\))*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
-  ]
+  ],
+  "sherlock.inlineAnnotations.enabled": true,
+  "sherlock.previewLanguageTag": "en"
 }

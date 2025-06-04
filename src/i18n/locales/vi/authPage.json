@@ -1,0 +1,9 @@
+{
+  "loginTitle": "Đăng Nhập",
+  "registerTitle": "Đăng Ký",
+  "email": "Email",
+  "password": "Mật khẩu",
+  "repeatPassword": "Nhập lại mật khẩu",
+  "switchToRegister": "Chưa có tài khoản? Đăng ký ngay!",
+  "switchToLogin": "Quay về Đăng Nhập"
+}

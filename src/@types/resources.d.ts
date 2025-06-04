@@ -1,0 +1,23 @@
+interface Resources {
+  "authPage": {
+    "loginTitle": "Đăng Nhập",
+    "registerTitle": "Đăng Ký",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "repeatPassword": "Nhập lại mật khẩu",
+    "switchToRegister": "Chưa có tài khoản? Đăng ký ngay!",
+    "switchToLogin": "Quay về Đăng Nhập"
+  },
+  "popup": {
+    "alertError": "Lỗi",
+    "alertSuccess": "Thành Công",
+    "unknownError": "Lỗi không xác định",
+    "confirmAccount": "Xác nhận tài khoản",
+    "enterOtpText": "Hãy nhập mã xác nhận đã được gửi tới email của bạn",
+    "otpClear": "Nhập lại",
+    "confirmButton": "Xác nhận",
+    "otpSucceed": "Xác nhận thành công, hãy quay về và đăng nhập lại"
+  }
+}
+
+export default Resources;
